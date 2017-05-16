@@ -1,11 +1,7 @@
 package demo.aj;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -21,16 +17,23 @@ public class HelloStreams {
 		
 		System.out.println(doubleList);
 		
+		//Demonstrate chaining of operations
+		// Filter out even numbers and sum them
+		System.out.println("Sum of even numbers " + 
+							list.stream()
+								.filter(e -> e % 2 == 0)
+								.mapToInt(Integer::valueOf) //Sum operation is only available on int streams, so we have to map our Integer to int
+								.sum()); 
+		
 		IntStream intStream = IntStream.range(1,  11);
 		// Sum the elements of the stream
+		System.out.println("Sum all elements of the stream" + intStream.sum());
 		
-		System.out.println(intStream.sum());
-		
-		Stream.of(1, 2, 3, 'a', 'b', "C");
-		// Filter elements of particular type
-		Stream.of(1, 2, 3, 'a', 'b', "C")
-				.filter( t -> t instanceof Character)
-				.forEach(t -> System.out.println(t));
+		Stream.of(1, 2, 3, 4, 5, 6);
+		// Filter even numbers
+		Stream.of(1, 2, 3, 4, 5, 6)
+				.filter( e -> e % 2 == 0)
+				.forEach(e -> System.out.println(e)); //Can be replaced by a method reference System.out::println
 	}
 
 }

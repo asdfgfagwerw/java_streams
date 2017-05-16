@@ -16,12 +16,15 @@ public class ParallelStreams {
 	
 	public static void main(String[] args) {
 		List<User> users = getUsers();
+		
 		long startTime = System.nanoTime();
+		
 		for(User user : users) {
 			String repos = apiRequest(user.getReposUrl());
 			System.out.println(getFirstRepoName(repos));
 		}
 		long endTime = System.nanoTime();
+		
 		System.out.println("Total time imperative : " + (endTime - startTime) / 1e9);
 		
 		startTime = System.nanoTime();
@@ -48,6 +51,11 @@ public class ParallelStreams {
 		List<User> usersList = usersMap.stream()
 				.map(user -> new User(user.get("repos_url")))
 				.collect(Collectors.toList());
+		/**
+		 * Java streams do not have a "take" function similar to RxJava.
+		 * So we have to use the sublist method to take the first 10 elements. 
+		 */
+		
 		return usersList.subList(0, 10);
 
 	}
